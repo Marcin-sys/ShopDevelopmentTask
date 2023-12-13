@@ -19,4 +19,8 @@ public class Authenticator {
         }
         return false;
     }
+
+    public UserRepository getUserRepository() {
+        return userRepository;
+    }
 }

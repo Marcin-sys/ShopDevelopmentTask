@@ -43,7 +43,7 @@ public class App {
             }
             System.out.println("Incorrect login data !!");
         }
-        int productID;
+        String productName;
         mainLoop:
         while (loop) {
             switch (GUI.showMenuAndReadChoose()) {
@@ -51,17 +51,19 @@ public class App {
                     GUI.printAllProducts(shopDatabase.getProducts());
                     break;
                 case "2": // kup product
-                    productID = GUI.getInputProductID();
-                    shopDatabase.buyProduct(productID);
+                    productName = GUI.getInputProductName(shopDatabase.products);
+                    shopDatabase.buyProduct(productName);
                     break;
                 case "3":
                     GUI.exitShop();
                     loop = false;
+                    authenticator.getUserRepository().save();
+                    shopDatabase.save();
                     break;
                 case "4":
-                    if ("ADMIN".equals(Authenticator.loggedUserRole)){
-                        productID = GUI.getInputProductID();
-                        shopDatabase.ChangeHowManyItemsInShopDatabase(productID);
+                    if ("ADMIN".equals(Authenticator.loggedUserRole)) {
+                        productName = GUI.getInputProductName(shopDatabase.products);
+                        shopDatabase.ChangeHowManyItemsInShopDatabase(productName);
                     } else {
                         GUI.showWrongChoose();
                     }

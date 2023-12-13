@@ -5,18 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2cd2f9e3-fc13-4564-abe8-fcbcea07643e" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/marcin/mirocha/shop/App.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/marcin/mirocha/shop/authenticator/Authenticator.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/marcin/mirocha/shop/db/ShopRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/marcin/mirocha/shop/db/UserRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/marcin/mirocha/shop/gui/GUI.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/marcin/mirocha/shop/model/Product.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/marcin/mirocha/shop/model/User.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/marcin/mirocha/shop/Constants.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/marcin/mirocha/shop/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/marcin/mirocha/shop/App.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/marcin/mirocha/shop/authenticator/Authenticator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/marcin/mirocha/shop/authenticator/Authenticator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/marcin/mirocha/shop/db/ShopRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/marcin/mirocha/shop/db/ShopRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/marcin/mirocha/shop/db/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/marcin/mirocha/shop/db/UserRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/marcin/mirocha/shop/gui/GUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/marcin/mirocha/shop/gui/GUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/marcin/mirocha/shop/model/Product.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/marcin/mirocha/shop/model/Product.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/marcin/mirocha/shop/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/marcin/mirocha/shop/model/User.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,29 +25,30 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Class" />
+        <option value="Interface" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 1
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 1
+}</component>
   <component name="ProjectId" id="2ZSE1XRtGcCTmDwlMSM3t7RoBN4" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager">
     <configuration name="App" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="marcin.mirocha.shop.App" />

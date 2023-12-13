@@ -1,24 +1,51 @@
 package marcin.mirocha.shop.db;
 
+import marcin.mirocha.shop.Constants;
 import marcin.mirocha.shop.model.User;
+
+import java.io.*;
+import java.util.HashMap;
 
 public class UserRepository {
 
-    private final User[] users = new User[3];
+    private final HashMap<String, User> users = new HashMap<>();
+    final String file = Constants.USERS_FILE;
 
     public UserRepository() {
-        this.users[0] = new User("admin","1d1080cc1bbc913340af0e9cc6e69dda","ADMIN");  //admin123
-        this.users[1] = new User("janusz","545ac9b6355cbbed46f7a9870f40cd3f","USER"); //janusz123
-        this.users[2] = new User("mateusz","d2fb22406c4eb52a33ec266b55115f50","USER"); //mateusz123
+        try (BufferedReader reader = new BufferedReader(new FileReader(this.file))) {
+            String currentLine;
+            while ((currentLine = reader.readLine()) != null) {
+                User user = new User();
+                String[] userParts = currentLine.split(";");
+                user.setLogin(userParts[0]);
+                user.setPassword(userParts[1]);
+                user.setRole(userParts[2]);
+                this.users.put(user.getLogin(), user);
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("pliku nie ma, zepsulo sie");
+        } catch (IOException e) {
+            System.out.println("nie da sie pliku odczytac");
+        }
     }
 
     public User findByLogin(String login) {
-        for ( User user : this.users){
-            if (user.getLogin().equals(login)){
-                return user;
+        return this.users.get(login);
+    }
+
+    public void save() {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
+            boolean first = true;
+            for (User user : this.users.values()) {
+                if (!first) {
+                    writer.newLine();
+                }
+                first = false;
+                writer.write(user.convertToCSVString());
             }
+        } catch (IOException e) {
+            System.out.println("nie udalo sie zapisac usersow");
         }
-        return null;
     }
 }
 

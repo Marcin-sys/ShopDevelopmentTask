@@ -4,6 +4,9 @@ import marcin.mirocha.shop.authenticator.Authenticator;
 import marcin.mirocha.shop.model.Product;
 import marcin.mirocha.shop.model.User;
 
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class GUI {
@@ -22,24 +25,28 @@ public class GUI {
         return input;
     }
 
-    public static void printAllProducts(Product[] products) {
+    public static void printAllProducts(Collection<Product> products) {
         for (Product product : products) {
             System.out.println(product);
         }
     }
 
-    public static int getInputProductID() {
+    public static String getInputProductName(HashMap<String, Product> products) {
         if ("ADMIN".equals(Authenticator.loggedUserRole)) {
-            System.out.println("Write id of Product that you wanna restock: ");
-        }else {
-            System.out.println("What you want to buy ? Write id of Product: ");
+            System.out.println("Write name of Product that you wanna restock: ");
+        } else {
+            System.out.println("What you want to buy ? Write name of Product: ");
         }
-        int input = scanner.nextInt();
+        String input = scanner.next();
+        while (!products.containsKey(input)) {
+            System.out.println("We dont have product of that name " + input + " please try again: ");
+            input = scanner.next();
+        }
         scanner.nextLine();
         return input;
     }
 
-    public static int getInputAmountOfProducts(){
+    public static int getInputAmountOfProducts() {
         System.out.println("How many prodcut do you want? ");
         int input = scanner.nextInt();
         scanner.nextLine();
@@ -69,7 +76,7 @@ public class GUI {
         return new User(login, scanner.nextLine());
     }
 
-    public static int addToStock(){
+    public static int addToStock() {
         System.out.println("How much do you wanna add to stock ?");
         int input = scanner.nextInt();
         scanner.nextLine();

@@ -10,6 +10,7 @@ public class User {
         this.password = password;
         this.role = role;
     }
+
     public User(String login, String password) {
         this.login = login;
         this.password = password;
@@ -40,6 +41,16 @@ public class User {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public String convertToCSVString() {
+        return new StringBuilder()
+                .append(this.login)
+                .append(";")
+                .append(this.password)
+                .append(";")
+                .append(this.role)
+                .toString();
     }
 }
 

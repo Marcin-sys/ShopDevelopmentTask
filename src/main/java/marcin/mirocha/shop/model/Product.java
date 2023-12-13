@@ -52,5 +52,17 @@ public class Product {
     public void setPrice(double price) {
         this.price = price;
     }
+
+    public String convertToCSVString() {
+        return new StringBuilder()
+                .append(this.name)
+                .append(";")
+                .append(this.howManyInShop)
+                .append(";")
+                .append(this.productID)
+                .append(";")
+                .append(this.price)
+                .toString();
+    }
 }
 

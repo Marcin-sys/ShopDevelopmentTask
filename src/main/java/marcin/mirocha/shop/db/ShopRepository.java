@@ -1,35 +1,48 @@
 package marcin.mirocha.shop.db;
 
+import marcin.mirocha.shop.Constants;
 import marcin.mirocha.shop.gui.GUI;
 import marcin.mirocha.shop.model.Product;
 
+import java.io.*;
+import java.util.Collection;
+import java.util.HashMap;
+
 public class ShopRepository {
 
-    private final Product[] products = new Product[10];
+    public final HashMap<String, Product> products = new HashMap<>();
+    final String file = Constants.SHOP_PRODUCTS_FILE;
 
     public ShopRepository() {
-        this.products[0] = new Product("Olowek", 5, 0, 12.21);
-        this.products[1] = new Product("Gumka", 5, 1, 12.21);
-        this.products[2] = new Product("Zeszyt", 5, 2, 12.21);
-        this.products[3] = new Product("Książka", 5, 3, 12.21);
-        this.products[4] = new Product("Myszka", 5, 4, 12.21);
-        this.products[5] = new Product("Klawiatura", 5, 5, 12.21);
-        this.products[6] = new Product("Kalendaz", 5, 6, 12.21);
-        this.products[7] = new Product("Monitor", 5, 7, 12.21);
-        this.products[8] = new Product("Laptop", 5, 8, 12.21);
-        this.products[9] = new Product("Komputer", 5, 9, 12.21);
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            String currentLine;
+            while ((currentLine = reader.readLine()) != null) {
+                String[] productPart = currentLine.split(";");
+                Product product = new Product(
+                        productPart[0],
+                        Integer.parseInt(productPart[1]),
+                        Integer.parseInt(productPart[2]),
+                        Double.parseDouble(productPart[3])
+                );
+                this.products.put(product.getName(), product);
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("pliku nie ma, zepsulo sie");
+        } catch (IOException e) {
+            System.out.println("nie da sie pliku odczytac");
+        }
     }
 
-    public void ChangeHowManyItemsInShopDatabase(int productID) {
-        Product product = this.products[productID];
+    public void ChangeHowManyItemsInShopDatabase(String productName) {
+        Product product = this.products.get(productName);
         int input = GUI.addToStock();
         product.setHowManyInShop(product.getHowManyInShop() + input);
         System.out.println(product.getName() + " have now " + product.getHowManyInShop() + " items.");
     }
 
-    public void buyProduct(int inputProductID) {
-        int amountInShop = this.products[inputProductID].getHowManyInShop();
-        String nameOfProduct = this.products[inputProductID].getName();
+    public void buyProduct(String inputProductName) {
+        int amountInShop = this.products.get(inputProductName).getHowManyInShop();
+        String nameOfProduct = this.products.get(inputProductName).getName();
         System.out.println("How many " + nameOfProduct + " do you wanna buy? ");
         int inputAmountOfProductToBuy = GUI.getInputAmountOfProducts();
         while (amountInShop < inputAmountOfProductToBuy) {
@@ -37,23 +50,32 @@ public class ShopRepository {
             System.out.println("Try again");
             inputAmountOfProductToBuy = GUI.getInputAmountOfProducts();
         }
-        double price = inputAmountOfProductToBuy * this.products[inputProductID].getPrice();
+        double price = inputAmountOfProductToBuy * this.products.get(inputProductName).getPrice();
         System.out.println("The price for " + nameOfProduct + " in amount of "
                 + inputAmountOfProductToBuy + " is: " + price);
+        this.products.get(inputProductName).setHowManyInShop(amountInShop - inputAmountOfProductToBuy);
     }
 
+    public Collection<Product> getProducts() {
+        return this.products.values();
+    }
 
-    private Product findProduct(int productID) {
-        for (Product product : this.products) {
-            if (product.getProductID() == productID) {
-                return product;
+    public void save() {
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(this.file))) {
+
+            boolean first = true;
+            for (Product product : this.products.values()) {
+                if (!first) {
+                    writer.newLine();
+                }
+                first = false;
+                writer.write(product.convertToCSVString());
             }
+            writer.close();
+        } catch (IOException e) {
+            System.out.println("nie udalo sie zapisac vehicles");
         }
-        return null;
-    }
-
-    public Product[] getProducts() {
-        return this.products;
     }
 }
 
