@@ -19,7 +19,9 @@ public class Authenticator {
         }
         return false;
     }
-
+    public String changePasswordToHash(String password){
+        return DigestUtils.md5Hex(password + this.seed);
+    }
     public UserRepository getUserRepository() {
         return userRepository;
     }

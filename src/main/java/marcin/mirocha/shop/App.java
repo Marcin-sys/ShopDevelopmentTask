@@ -6,24 +6,24 @@ import marcin.mirocha.shop.gui.GUI;
 import marcin.mirocha.shop.model.User;
 
 /*
-*
-* Rozbudowa aplikacji sklep.
-* Zamiana tablic na kolekcje, zapis danych do pliku. Wymyślcie
-* sposób na to aby wszystkie dane były zapisywane do jednego pliku
-* (chcemy mieć jeden plik bd.txt, w którym są użytkownicy, produkty
-* i wszystko co macie w aplikacji). Dodajcie opcję rejestracji
-* użytkowników - jak aplikacja się uruchamia to pokazuje się
-* wybór czy chcesz się zalogować czy zarejestrować. Jeśli ktoś
-*  wybierze logowanie to pojawia się mechanizm do logowania i
-* aplikacja działa po staremu. Jeśli użytkownik wybierze
-* rejestrację to aplikacja wypytuje o login i hasło i
-* rejestruje nowego użytkownika. Potem wraca do początku
-*  i znowu pyta czy chcesz się zalogować czy zarejestrować.
-* Aplikacja powinna sprawdzać czy ktoś nie wpisał loginu który
-*  już istnieje, jeśli tak to pyta ponownie o dane rejestracji.
-*  Admin ma nową funkcję - może zmienić jakiegoś USERa na ADMINa.
-*  ADMIN podaje login i ten user staje się adminem.
-* */
+ *
+ * Rozbudowa aplikacji sklep.
+ * Zamiana tablic na kolekcje, zapis danych do pliku. Wymyślcie
+ * sposób na to aby wszystkie dane były zapisywane do jednego pliku
+ * (chcemy mieć jeden plik bd.txt, w którym są użytkownicy, produkty
+ * i wszystko co macie w aplikacji). Dodajcie opcję rejestracji
+ * użytkowników - jak aplikacja się uruchamia to pokazuje się
+ * wybór czy chcesz się zalogować czy zarejestrować. Jeśli ktoś
+ *  wybierze logowanie to pojawia się mechanizm do logowania i
+ * aplikacja działa po staremu. Jeśli użytkownik wybierze
+ * rejestrację to aplikacja wypytuje o login i hasło i
+ * rejestruje nowego użytkownika. Potem wraca do początku
+ *  i znowu pyta czy chcesz się zalogować czy zarejestrować.
+ * Aplikacja powinna sprawdzać czy ktoś nie wpisał loginu który
+ *  już istnieje, jeśli tak to pyta ponownie o dane rejestracji.
+ *  Admin ma nową funkcję - może zmienić jakiegoś USERa na ADMINa.
+ *  ADMIN podaje login i ten user staje się adminem.
+ * */
 public class App {
 
     public static void main(String[] args) {
@@ -49,21 +49,32 @@ public class App {
         final ShopRepository shopDatabase = new ShopRepository();
         final Authenticator authenticator = new Authenticator();
         boolean loop = false;
+        boolean welcomeLoop = true;
 
-        for (int i = 0; i < 3; i++) {
-            User user = GUI.readLoginData();
-            boolean authResult = authenticator.authenticator(user.getLogin(), user.getPassword());
+        while (welcomeLoop) {
+            switch (GUI.welcomeMenu()) {
+                case "1":
+                    GUI.registerNewClient(authenticator);
+                    break;
+                case "2":
+                    for (int i = 0; i < 3; i++) {
+                        User user = GUI.readLoginData();
+                        boolean authResult = authenticator.authenticator(user.getLogin(), user.getPassword());
 
-
-            if (authResult) {
-                System.out.println("Logged !!");
-                loop = true;
-                break;
+                        if (authResult) {
+                            System.out.println("Logged !!");
+                            loop = true;
+                            welcomeLoop = false;
+                            break;
+                        }
+                        System.out.println("Incorrect login data !!");
+                    }
+                default:
+                    GUI.showWrongChoose();
+                    break;
             }
-            System.out.println("Incorrect login data !!");
         }
         String productName;
-        mainLoop:
         while (loop) {
             switch (GUI.showMenuAndReadChoose()) {
                 case "1": //wyswietl liste produktow / admin i user
@@ -76,13 +87,21 @@ public class App {
                 case "3":
                     GUI.exitShop();
                     loop = false;
-                    authenticator.getUserRepository().save();
-                    shopDatabase.save();
+                    GUI.save(shopDatabase, authenticator);
                     break;
                 case "4":
                     if ("ADMIN".equals(Authenticator.loggedUserRole)) {
                         productName = GUI.getInputProductName(shopDatabase.products);
                         shopDatabase.ChangeHowManyItemsInShopDatabase(productName);
+                    } else {
+                        GUI.showWrongChoose();
+                    }
+                    break;
+                case "5":
+                    if ("ADMIN".equals(Authenticator.loggedUserRole)) {
+                        //TODO admin moze zmienic uzytkownika na admina
+                        authenticator.getUserRepository()
+                                .changeUserRoleToAdminRole(GUI.getLoginFromDataBase(authenticator));
                     } else {
                         GUI.showWrongChoose();
                     }

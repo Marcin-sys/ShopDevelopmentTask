@@ -8,13 +8,20 @@ import java.util.HashMap;
 
 public class UserRepository {
 
-    private final HashMap<String, User> users = new HashMap<>();
-    final String file = Constants.USERS_FILE;
+    private HashMap<String, User> users = new HashMap<>();
+    final String file = Constants.DATABASE_FILE;
 
     public UserRepository() {
         try (BufferedReader reader = new BufferedReader(new FileReader(this.file))) {
             String currentLine;
+
             while ((currentLine = reader.readLine()) != null) {
+                if (currentLine.equals("DatabaseShopProducts")){
+                    break;
+                }
+                if (currentLine.equals("DatabaseUser")){
+                    currentLine = reader.readLine();
+                }
                 User user = new User();
                 String[] userParts = currentLine.split(";");
                 user.setLogin(userParts[0]);
@@ -33,19 +40,30 @@ public class UserRepository {
         return this.users.get(login);
     }
 
-    public void save() {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
-            boolean first = true;
+    public void save(BufferedWriter writer) {
+           try {
+            writer.write("DatabaseUser");
             for (User user : this.users.values()) {
-                if (!first) {
-                    writer.newLine();
-                }
-                first = false;
+                writer.newLine();
                 writer.write(user.convertToCSVString());
             }
         } catch (IOException e) {
             System.out.println("nie udalo sie zapisac usersow");
         }
+    }
+
+    public void addNewUser(User user){
+        this.users.put(user.getLogin(),user);
+    }
+
+    public boolean findIfThereIsAlreadyUserWithThisName(String inputName){
+        return this.users.containsKey(inputName);
+    }
+
+    public void changeUserRoleToAdminRole(String login){
+        User user = this.users.get(login);
+        user.setRole("ADMIN");
+        System.out.println("Successfully changed role for " + login);
     }
 }
 

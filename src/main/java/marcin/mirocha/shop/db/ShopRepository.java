@@ -11,12 +11,20 @@ import java.util.HashMap;
 public class ShopRepository {
 
     public final HashMap<String, Product> products = new HashMap<>();
-    final String file = Constants.SHOP_PRODUCTS_FILE;
+    final String file = Constants.DATABASE_FILE;
 
     public ShopRepository() {
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             String currentLine;
+            boolean loop = true;
             while ((currentLine = reader.readLine()) != null) {
+                while(!currentLine.equals("DatabaseShopProducts") && loop){
+                    currentLine = reader.readLine();
+                }
+                if (currentLine.equals("DatabaseShopProducts")){
+                    currentLine = reader.readLine();
+                    loop = false;
+                }
                 String[] productPart = currentLine.split(";");
                 Product product = new Product(
                         productPart[0],
@@ -60,19 +68,14 @@ public class ShopRepository {
         return this.products.values();
     }
 
-    public void save() {
-
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(this.file))) {
-
-            boolean first = true;
+    public void save(BufferedWriter writer) {
+        try {
+            writer.newLine();
+            writer.write("DatabaseShopProducts");
             for (Product product : this.products.values()) {
-                if (!first) {
-                    writer.newLine();
-                }
-                first = false;
+                writer.newLine();
                 writer.write(product.convertToCSVString());
             }
-            writer.close();
         } catch (IOException e) {
             System.out.println("nie udalo sie zapisac vehicles");
         }
