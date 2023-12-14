@@ -1,7 +1,7 @@
 package marcin.mirocha.shop;
 
 public interface Constants {
-    String DATABASE_FILE = "C:\\Users\\mmirocha\\IdeaProjects\\database.txt";
+    String DATABASE_FILE = "G:\\IT_CAMP9_BOOTCAMP\\database.txt";
 /*login i hasla do userow
 * mateusz mateusz123
 * admin  admin123

@@ -69,6 +69,7 @@ public class App {
                         }
                         System.out.println("Incorrect login data !!");
                     }
+                    break;
                 default:
                     GUI.showWrongChoose();
                     break;
@@ -99,7 +100,6 @@ public class App {
                     break;
                 case "5":
                     if ("ADMIN".equals(Authenticator.loggedUserRole)) {
-                        //TODO admin moze zmienic uzytkownika na admina
                         authenticator.getUserRepository()
                                 .changeUserRoleToAdminRole(GUI.getLoginFromDataBase(authenticator));
                     } else {

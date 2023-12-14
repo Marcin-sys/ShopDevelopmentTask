@@ -63,7 +63,7 @@ public class UserRepository {
     public void changeUserRoleToAdminRole(String login){
         User user = this.users.get(login);
         user.setRole("ADMIN");
-        System.out.println("Successfully changed role for " + login);
+        System.out.println("Successfully changed role for " + login + " to ADMIN");
     }
 }
 
